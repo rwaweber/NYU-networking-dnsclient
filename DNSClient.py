@@ -19,8 +19,8 @@ def query_local_dns_server(domain,question_type):
     resolver.nameservers = [local_host_ip]
     answers = resolver.resolve(domain, question_type) # provide the domain and question_type
 
-    ip_address = answers.rrset.to_text()
-    return ip_address
+    ip_address = [a.to_text() for a in answers]
+    return ip_address[0]
 
 # Define a function to query a public DNS server for the IP address of a given domain name
 def query_dns_server(domain,question_type):
@@ -28,8 +28,10 @@ def query_dns_server(domain,question_type):
     resolver.nameservers = [real_name_server]
     answers = resolver.resolve(domain, question_type) # provide the domain and question_type
 
-    ip_address = answers.rrset.to_text()
-    return ip_address
+    # NOTE: its possible for certain records to return multiple entries,
+    # for this assignment we're only looking for the first
+    ip_address = [a.to_text() for a in answers]
+    return ip_address[0]
 
 # Define a function to compare the results from the local and public DNS servers for each domain name in the list
 def compare_dns_servers(domainList,question_type):
