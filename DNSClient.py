@@ -1,8 +1,8 @@
 import dns.resolver
 
 # Set the IP address of the local DNS server and a public DNS server
-LOCAL_RESOLVER_IP = "10.1.10.1"
-REAL_NAME_SERVER_IP = "1.1.1.1" # cloudflare public dns
+local_host_ip = "127.0.0.1"
+real_name_server = "1.1.1.1" # cloudflare public dns
 
 # Create a list of domain names to query - use the same list from the DNS Server
 DOMAIN_LIST  = [
@@ -16,7 +16,7 @@ DOMAIN_LIST  = [
 # Define a function to query the local DNS server for the IP address of a given domain name
 def query_local_dns_server(domain,question_type):
     resolver = dns.resolver.Resolver()
-    resolver.nameservers = [LOCAL_RESOLVER_IP]
+    resolver.nameservers = [local_host_ip]
     answers = resolver.resolve(domain, question_type) # provide the domain and question_type
 
     ip_address = answers.rrset.to_text()
@@ -25,7 +25,7 @@ def query_local_dns_server(domain,question_type):
 # Define a function to query a public DNS server for the IP address of a given domain name
 def query_dns_server(domain,question_type):
     resolver = dns.resolver.Resolver()
-    resolver.nameservers = [REAL_NAME_SERVER_IP]
+    resolver.nameservers = [real_name_server]
     answers = resolver.resolve(domain, question_type) # provide the domain and question_type
 
     ip_address = answers.rrset.to_text()
@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
 
     # Call the function to print the results from querying both DNS servers
-    local_external_DNS_output(question_type)
+    #local_external_DNS_output(question_type)
 
     # Call the function to compare the results from both DNS servers and print the result
     result = compare_dns_servers(DOMAIN_LIST,question_type)
