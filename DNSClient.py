@@ -1,4 +1,4 @@
-niimport dns.resolver
+import dns.resolver
 
 # Set the IP address of the local DNS server and a public DNS server
 local_host_ip = ????
